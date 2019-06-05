@@ -82,9 +82,7 @@
 
 
 \newpage
-\section{First runs}
-\subsection{Noise Multipliers}
-
+\section{Q1.1}
 \subsection{Problem}
 \[\min_x x^T M x + c^T x\]
 \[s.t: Ax - b = 0\]
@@ -113,7 +111,7 @@
 \[2Mx + c + A^T \mu = 0 \]
 \[2Mx = - c - A^T \mu\]
 \[x = - \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T \mu\]
-\paragraph{Substitute x into restrain}
+\paragraph{Substitute x into constraint}
 \[recall\  that: Ax - b = 0\ thus:\]
 \[A(- \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T \mu) - b = 0 \]
 \[- \frac{1}{2} AM^{-1}c - \frac{1}{2} AM^{-1}A^T \mu - b = 0 \]
@@ -127,4 +125,64 @@
 \[x = - \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T (-(AM^{-1}A^T)^{-1}(AM^{-1}c + 2b))\]
 \paragraph{Final answer}
 \[x = - \frac{1}{2} M^{-1}c + \frac{1}{2} M^{-1}A^T (AM^{-1}A^T)^{-1}(AM^{-1}c + 2b)\]
+
+\newpage
+\section{Q1.2}
+\subsection{Problem}
+\[min_x ||x-c||_2 ^2 = min_x (x-c)^T (x-c) = x^T x - x^T c - c^T x + c^T c\]
+\[h(x)= Ax -b = 0 \]
+\subsection{Solution}
+\paragraph{Lagrangian}
+\[L(x,\mu)=f(x) + \mu ^T h(x) = x^T x - x^T c - c^T x + c^T c + \mu ^T Ax - \mu ^T b\]
+\[dL = dx^T x + x^T dx - dx^T c - c^T dx + \mu ^T Adx \]
+\[those \ are \ scalars: dx^T x \ \ and \ \ dx^T c \ \ thus: \]
+\[dx^T x = x^T dx \ , \ dx^T c = c^T dx \ thus: \]
+\[dL = x^T dx + x^T dx - c^T dx - c^T dx + \mu ^T Adx \]
+\[dL = 2x^T dx - 2c^T dx + \mu ^T Adx \]
+\[dL = (2x^T - 2c^T + \mu ^T A)dx \]
+\[\nabla_x L = (2x^T - 2c^T + \mu ^T A)^T = 0 \]
+\[\nabla_x L = 2x - 2c + A^T \mu = 0 \]
+\[x= c - \frac{1}{2} A^T \mu \]
+\paragraph{Substitute x into constraint}
+\[A(c- \frac{1}{2} A^T \mu) = b\]
+\[Ac - \frac{1}{2} AAT^ \mu = b\]
+\[AA^T \mu = 2Ac - 2b\]
+\[\mu = 2 (AA^T)^{-1} (Ac - b)\]
+\paragraph{Substitute $\mu$ into x}
+\[x = c - \frac{1}{2} A^T ( 2 ( AA^T )^{-1} ( Ac - b ) ) \] 
+\[x = c -  A^T (AA^T)^{-1} (Ac - b)\]  
+
+\newpage
+\section{Q1.3}
+\subsection{Problem}
+\[min_x x^T A x + b^T x = min_x x_1 ^2 + 2 x_1 x_2 + 2 x_2 ^2 + x_1 - x_2 + x_3 \]
+\[h(x)= x_1 + x_2 + x_3 - 1 = 0\]
+\[g(x)= x_3 - 1 \leq 0 \]
+\subsection{Is the problem is convex?}
+The problem is convex if objective function is convex and all constraints are convex. If matrix $A$ is positive definite or positive semi-definite, then the objective is convex. Constraints are liner, so they are convex. Let's eigenvalues of $A$:
+
+\[|A- \lambda I | = (1- \lambda)(2 -\lambda)(-\lambda)+ \lambda = 0 \]
+\[\lambda (- \lambda ^2 + 3 \lambda - 1  = 0\]
+\[\lambda_{1,2} = \frac{+3 \pm \sqrt{5}}{2} > 0 \ , \ \lambda_3 = 0 \ \ thus: \]
+\[A \succeq 0 \longrightarrow the \ problem \ is \ convex \]
+
+\subsection{Dual problem}
+\paragraph{Minimization of L in x}
+\[L(x, \lambda, \mu) = x_1 ^2 + 2 x_1 x_2 + 2 x_2 ^2 + x_1 - x_2 + x_3 + \lambda (x_3 - 1) + \mu (x_1 + x_2 + x_3 - 1)\]
+\[\frac{\delta L}{\delta x_1} = 2x_1 + 2x_2 + 1 + \mu = 0 \]
+\[\frac{\delta L}{\delta x_2} = 2x_1 + 4x_2 - 1 + \mu = 0 \]
+\[\frac{\delta L}{\delta x_3} = 1 + \lambda + \mu = 0\]
+Solving equations system and denoting $\mu = -1 -\lambda$ we get:
+\[x_1 = \frac{1}{2} \lambda -1 \ , \ x_2 =1 \ , \ x_3 = 1 - \frac{1}{2} \lambda\]
+\paragraph{Substitute x into L to get the dual problem}
+\[\eta(\lambda , \mu) = \min_x L(x, \lambda, \mu) = L(x^*, \lambda, \mu) = \]
+\[= (\frac{1}{2} \lambda - 1)^2 +2(\frac{1}{2} \lambda - 1)+2+(\frac{1}{2} \lambda - 1)-1+(1 - \frac{1}{2} \lambda)+ \lambda(1 - \frac{1}{2} - 1) + \mu(\frac{1}{2} \lambda - 1 + 1 + 1 - \frac{1}{2} \lambda - 1) = \]
+\[= - \frac{1}{4} \lambda ^2 \longrightarrow \eta(\lambda , \mu) = - \frac{1}{4} \lambda ^2\]
+\paragraph{Maximization of the dual problem}
+Instead of maximizing, we can minimize negative dual problem.
+\[ \min_{\lambda \geq 0} -\eta(\lambda , \mu) = \min_{\lambda \geq 0} \frac{1}{4} \lambda ^2\]
+\[\frac{\delta \eta}{\delta \lambda} = \frac{1}{2} \lambda = 0 \longrightarrow \lambda=0 \]
+\[recall: \ \mu = -1 - \lambda \longrightarrow \mu = -1\]
+\[x_1 = \frac{1}{2} \lambda -1 = 0 \ , \ x_2 =1 \ , \ x_3 = 1 - \frac{1}{2} \lambda\ = 1\]
+
 \end{document}
