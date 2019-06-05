@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+
+% Any percent sign marks a comment to the end of the line
+
+% Every latex document starts with a documentclass declaration like this
+% The option dvips allows for graphics, 12pt is the font size, and article
+%   is the style
+
+\usepackage[pdftex]{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\DeclareMathOperator*{\max_bottom}{max}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{amsmath}
+
+
+\lstset{language=python}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Sharelatex Example},
+    bookmarks=true,
+    pdfpagemode=FullScreen,
+}
+
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% These are additional packages for "pdflatex", graphics, and to include
+% hyperlinks inside a document.
+
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\rightmargin}{0.5cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 0pt
+\parskip 5pt
+\pagestyle{plain}
+
+% These force using more of the margins that is the default style
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+
+\begin{document}
+\title{\Huge Noise Project Report (Diary)}
+
+\author{
+  \textbf{Pavel Rastopchin}\\
+	321082026 \\ pavelr@campus.technion.ac.il
+  \\ \\
+  \textbf{Ameen ALi}\\
+  	321082026 \\ pavelr@campus.technion.ac.il
+  \\ \\ 
+}
+
+\maketitle
+
+
+\newpage
+\section{First runs}
+\subsection{Noise Multipliers}
+
+\subsection{Problem}
+\[\min_x x^T M x + c^T x\]
+\[s.t: Ax - b = 0\]
+\[i.e: h(x)= Ax - b = 0\]
+\[M \succ 0\] 
+\[i.e: M^T=M\]
+
+\subsection{Solution}
+\paragraph{Writing Lagrangian}
+\[L(x, \mu)=f(x) + \mu ^T h(x) = x^T M x + c^T x + \mu ^T A x - \mu ^ T b\]
+
+\paragraph{Finding Gradient of Lagrangian}
+\[dL(x, \mu)= dx^T Mx + x^T Mdx + c^T dx + \mu ^T Adx \]
+\[(dx^T Mx)\ is \ a \ scalar, \ thus: (dx^T Mx) = (dx^T Mx)^T \ thus:\]
+\[dL(x, \mu) = x^T M^T dx + x^T M dx + c^T dx + \mu ^T Adx \]
+\[dL(x, \mu)= (x^T M^T + x^T M + c^T + \mu ^T A)dx \]
+\[dL(x, \mu)= (x^T M^T + x^T M + c^T + \mu ^T A)dx \]
+\[g^T = \nabla_x L^T = (x^T M^T + x^T M + c^T + \mu ^T A)\]
+\[\nabla_x L = (x^T M^T + x^T M + c^T + \mu ^T A)^T\]
+\[\nabla_x L = Mx + M^T x + c + A^T \mu\]
+\[M \ is \ symetric, \ thus: Mx + M^T x\ thus:\]
+\[\nabla_x L = 2Mx + c + A^T \mu\]
+\paragraph{KKT}
+\[\nabla_x L = 2Mx + c + A^T \mu = 0 \]
+\paragraph{Writing x}
+\[2Mx + c + A^T \mu = 0 \]
+\[2Mx = - c - A^T \mu\]
+\[x = - \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T \mu\]
+\paragraph{Substitute x into restrain}
+\[recall\  that: Ax - b = 0\ thus:\]
+\[A(- \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T \mu) - b = 0 \]
+\[- \frac{1}{2} AM^{-1}c - \frac{1}{2} AM^{-1}A^T \mu - b = 0 \]
+\paragraph{Writing $\mu$}
+\[\frac{1}{2} AM^{-1}A^T \mu = - \frac{1}{2} AM^{-1}c - b \]
+\[AM^{-1}A^T \mu = - AM^{-1}c - 2b \]
+\[ \mu = (AM^{-1}A^T)^{-1}(- AM^{-1}c - 2b)\]
+\[ \mu = -(AM^{-1}A^T)^{-1}(AM^{-1}c + 2b)\]
+\paragraph{Substitute $\mu$ into x}
+\[recall\  that: x = - \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T \mu \ \ thus:\]
+\[x = - \frac{1}{2} M^{-1}c - \frac{1}{2} M^{-1}A^T (-(AM^{-1}A^T)^{-1}(AM^{-1}c + 2b))\]
+\paragraph{Final answer}
+\[x = - \frac{1}{2} M^{-1}c + \frac{1}{2} M^{-1}A^T (AM^{-1}A^T)^{-1}(AM^{-1}c + 2b)\]
+\end{document}
