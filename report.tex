@@ -127,7 +127,7 @@
 \[x = - \frac{1}{2} M^{-1}c + \frac{1}{2} M^{-1}A^T (AM^{-1}A^T)^{-1}(AM^{-1}c + 2b)\]
 
 \newpage
-\section{Q1.2}
+\section{Q1.2.1}
 \subsection{Problem}
 \[min_x ||x-c||_2 ^2 = min_x (x-c)^T (x-c) = x^T x - x^T c - c^T x + c^T c\]
 \[h(x)= Ax -b = 0 \]
@@ -153,7 +153,7 @@
 \[x = c -  A^T (AA^T)^{-1} (Ac - b)\]  
 
 \newpage
-\section{Q1.3}
+\section{Q1.2.2}
 \subsection{Problem}
 \[min_x x^T A x + b^T x = min_x x_1 ^2 + 2 x_1 x_2 + 2 x_2 ^2 + x_1 - x_2 + x_3 \]
 \[h(x)= x_1 + x_2 + x_3 - 1 = 0\]
@@ -184,5 +184,35 @@ Instead of maximizing, we can minimize negative dual problem.
 \[\frac{\delta \eta}{\delta \lambda} = \frac{1}{2} \lambda = 0 \longrightarrow \lambda=0 \]
 \[recall: \ \mu = -1 - \lambda \longrightarrow \mu = -1\]
 \[x_1 = \frac{1}{2} \lambda -1 = 0 \ , \ x_2 =1 \ , \ x_3 = 1 - \frac{1}{2} \lambda\ = 1\]
+
+\newpage
+\section{Q1.3}
+\subsection{Problem}
+\[min_x c^T x\]
+\[s.t. \ g_1 (x) = Ax-b \leq 0 \]
+\[s.t. \ g_2 (x) = -x \leq 0 \]
+
+\paragraph{Minimization of L in x}
+\[L(x,\lambda_1, \lambda_2) = c^T x + \lambda_1 ^T (Ax-b) + \lambda_2 ^T (-x)\]
+\[L(x,\lambda_1, \lambda_2) = c^T x + \lambda_1 ^T Ax - \lambda_1 ^T b - \lambda_2 ^T x\]
+\[dL = c^T dx + \lambda_1 ^T A dx - \lambda_2 ^ T dx \]
+\[dL = (c^T + \lambda_1 ^T A - \lambda_2 ^T)dx \]
+\[\nabla_x L = (c^T + \lambda_1 ^T A - \lambda_2 ^T)^T = c+A^T \lambda_1 - \lambda_2 =0\]
+\[c=\lambda_2 - A^T \lambda_1\]
+\paragraph{Substitute c into L to get the dual function}
+\[L(x,\lambda_1, \lambda_2) = (\lambda_2 - A^T \lambda_1)^T x + \lambda_1 ^T (Ax-b) + \lambda_2 ^T (-x) = -\lambda_1 ^T b\]
+  \[
+    \eta(\lambda_1 , \lambda_2) =\left\{
+                \begin{array}{ll}
+                  -\lambda_1 ^T b \ \ ; \ c=\lambda_2 - A^T \lambda_1 \\
+                  - \inf \ \ ; \ otherwise
+                \end{array}
+              \right.
+  \]
+\paragraph{Dual problem}
+Instead of maximizing we can minimize negative dual function. 
+\[\min_{\lambda \geq 0} \lambda_1 ^T b\]
+\[s.t. \ c=\lambda_2 - A^T \lambda_1\]
+
 
 \end{document}
