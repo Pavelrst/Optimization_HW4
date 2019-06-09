@@ -274,5 +274,44 @@ x_2^*=\frac{2-\lambda_1+\lambda_2}{2} \longrightarrow x_2^* = \frac{2}{3}
 Is the dual optimum achieved at that point? Yes.
 \[\eta(\lambda_1^*, \lambda_2^*) = 37 \frac{2}{3} \]
 
+\newpage
+\section{Code}
+\subsection{Penalty method}
+\subparagraph{Lagrangian} Lets look at example with only one constraint
+\[L_{p\mu}(x) = f(x) + \mu_i \varphi_{p }(g_{i(x)}) + ... \]
+
+\[\nabla_x L_{p\mu}(x) = \nabla_x f(x) + \mu_i \varphi_{p }^{'} (g_{i(x)}) \nabla_x g_{i(x)} + ... \]
+
+\[\nabla_x^2 L_{p\mu}(x) = \nabla_x^2 f(x) +  \mu_i \varphi_{p}^{''} (g_{i(x)}) \nabla_x g_{i(x)}\nabla_x^T g_{i(x)} +  \mu_i \varphi_{p}^{'} (g_{i(x)}) \nabla_x^2 g_{i(x)} + ... = \]
+
+\[\nabla_x^2 L_{p\mu}(x) = \nabla_x^2 f(x) +  \mu_i \varphi_{p}^{''} (g_{i(x)}) \nabla_x g_{i(x)}\nabla_x^T g_{i(x)} + 0 \]
+
+\subparagraph{Penalty Function}
+\[
+    \varphi_{p}(g_{(x)}) =\left\{
+                \begin{array}{ll}
+                  \frac{1}{p}(\frac{p^2 g_{(x)}^2}{2} + pg_{(x)}) \ ; \ pg_{(x)} \geq -\frac{1}{2} \\
+                  \frac{1}{p} [-\frac{1}{4} \log(-2pg_{(x)})-\frac{3}{8}] \ ; \ pg_{(x)} -\frac{1}{2}
+                \end{array}
+              \right.
+\]
+
+\[
+    \varphi_{p}^{'}(g_{(x)}) =\left\{
+                \begin{array}{ll}
+                  (pg_{(x)}+1) \ ; \ pg_{(x)} \geq -\frac{1}{2} \\
+				-\frac{1}{4pg_{(x)}}\ ; \ pg_{(x)} < -\frac{1}{2}
+                \end{array}
+              \right.
+\]
+
+\[
+    \varphi_{p}^{''}(g_{(x)}) =\left\{
+                \begin{array}{ll}
+                   p \ ; \ pg_{(x)} \geq -\frac{1}{2} \\
+				\frac{1}{4pg_{(x)}^2}\ ; \ pg_{(x)} < -\frac{1}{2}
+                \end{array}
+              \right.
+\]
 
 \end{document}
