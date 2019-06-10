@@ -17,7 +17,7 @@ class Gradient_descent():
         self.method_type = method_type
 
     def optimize(self, func, start_point):
-        self.f_val_list.append(func.val(start_point))
+        #self.f_val_list.append(func.val(start_point))
 
         x = start_point
 
@@ -33,8 +33,7 @@ class Gradient_descent():
                 break
             self.f_val_list.append(func.val(x))
 
-            # if self.verbose:
-            #     print("f(x)=", func.val(x), " current point= ~", np.round(x, 5))
+            #print("f(x)=", func.val(x), " current point= ~", np.round(x, 5))
 
             # print("norm=",np.linalg.norm(func.grad(x)))
             if np.linalg.norm(func.grad(x)) < self.threshold:
@@ -89,8 +88,8 @@ class Gradient_descent():
         converg_list = []
         iterations_list = []
         for idx, val in enumerate(self.f_val_list):
-            #converg_list.append(abs(val - val_optimal))
-            converg_list.append(val)
+            converg_list.append(abs(val - val_optimal))
+            #converg_list.append(val)
             iterations_list.append(idx)
 
         plt.plot(iterations_list, converg_list)

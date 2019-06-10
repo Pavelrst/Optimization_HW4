@@ -20,9 +20,9 @@ class Quadratic_general:
 
     def grad(self, x):
         Q_QT = self.Q+np.transpose(self.Q)
-        return (1/2 * np.matmul(Q_QT,x) + self.d)
+        return 1/2 * np.matmul(Q_QT, x) + self.d
 
     def hess(self, x):
-        return 1/2 * self.Q+np.transpose(self.Q)
+        return 1/2 * (self.Q+np.transpose(self.Q))
 
 

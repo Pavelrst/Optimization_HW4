@@ -15,14 +15,22 @@ class AugmentedLagrangian:
         self.p_alpha = 10
         self.penalty = Penalty(2)
 
+    def print_multipliers(self):
+        print("Augmented Lagrangian multipliers are: ", self.mu_list)
 
     def update_mu(self, x):
+        '''
+        Updates Lagrangian multipliers
+        '''
         for idx, mu in enumerate(self.mu_list):
-            self.mu_list[idx] = self.penalty.deriv(self.constr_list[idx].val(x))
+            mu_new = self.mu_list[idx] * self.penalty.deriv(self.constr_list[idx].val(x))
+            self.mu_list[idx] = mu_new
+        #print("self.mu_list=", self.mu_list)
 
     def update_p(self):
-        self.curr_p = self.curr_p * self.p_alpha
-        self.penalty = Penalty(min(self.curr_p, self.p_max))
+        if self.curr_p < self.p_max:
+            self.curr_p = self.curr_p * self.p_alpha
+            self.penalty = Penalty(min(self.curr_p, self.p_max))
 
     def optimal(self):
         return self.optimal()
@@ -59,19 +67,17 @@ class Penalty:
 
     def val(self, g):
         if self.p*g >= -0.5:
-            return (1 / self.p) * (0.5 * (self.p*g ** 2) + self.p*g)
+            return (1 / self.p) * (0.5 * ((self.p*g) ** 2) + self.p*g)
 
         else:
             return (1 / self.p) * (-0.25 * (np.log(-2 * self.p*g) - 3 / 8))
 
     def deriv(self, g):
-        try:
-            if self.p*g >= -0.5:
-                return self.p*g + 1
-            else:
-                return - (1 / (4*self.p*g))
-        except:
-            print('!!!')
+        if self.p*g >= -0.5:
+            return self.p*g + 1
+        else:
+            return - (1 / (4*self.p*g))
+
 
     def sec_deriv(self, g):
         if self.p*g >= -0.5:
