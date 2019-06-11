@@ -67,14 +67,14 @@
 
 
 \begin{document}
-\title{\Huge Noise Project Report (Diary)}
+\title{\Huge Introduction to Optimization - HW 4}
 
 \author{
-  \textbf{Pavel Rastopchin}\\
-	321082026 \\ pavelr@campus.technion.ac.il
+  \textbf{Uri Kirstein}\\
+  311137095 \\ sukirstn@campus.technion.ac.il
   \\ \\
-  \textbf{Ameen ALi}\\
-  	321082026 \\ pavelr@campus.technion.ac.il
+  \textbf{Pavel Rastopchin}\\
+  321082026 \\ pavelr@campus.technion.ac.il
   \\ \\ 
 }
 
@@ -82,7 +82,7 @@
 
 
 \newpage
-\section{Q1.1}
+\section{Task 1, Q1}
 \subsection{Problem}
 \[\min_x x^T M x + c^T x\]
 \[s.t: Ax - b = 0\]
@@ -127,8 +127,7 @@
 \[x = - \frac{1}{2} M^{-1}c + \frac{1}{2} M^{-1}A^T (AM^{-1}A^T)^{-1}(AM^{-1}c + 2b)\]
 
 \newpage
-\section{Task 1}
-\section{Q1.2.1}
+\section{Task 1, Q2.1}
 \subsection{Problem}
 \[min_x ||x-c||_2 ^2 = min_x (x-c)^T (x-c) = x^T x - x^T c - c^T x + c^T c\]
 \[h(x)= Ax -b = 0 \]
@@ -154,7 +153,7 @@
 \[x = c -  A^T (AA^T)^{-1} (Ac - b)\]  
 
 \newpage
-\section{Q1.2.2}
+\section{Task 1, Q2.2}
 \subsection{Problem}
 \[min_x x^T A x + b^T x = min_x x_1 ^2 + 2 x_1 x_2 + 2 x_2 ^2 + x_1 - x_2 + x_3 \]
 \[h(x)= x_1 + x_2 + x_3 - 1 = 0\]
@@ -187,7 +186,7 @@ Instead of maximizing, we can minimize negative dual problem.
 \[x_1 = \frac{1}{2} \lambda -1 = 0 \ , \ x_2 =1 \ , \ x_3 = 1 - \frac{1}{2} \lambda\ = 1\]
 
 \newpage
-\section{Q1.3}
+\section{Task 1, Q3}
 \subsection{Problem}
 \[min_x c^T x\]
 \[s.t. \ g_1 (x) = Ax-b \leq 0 \]
@@ -275,16 +274,16 @@ Is the dual optimum achieved at that point? Yes.
 \[\eta(\lambda_1^*, \lambda_2^*) = 37 \frac{2}{3} \]
 
 \newpage
-\section{Code}
+\section{Wet part}
 \subsection{Penalty method}
-\subparagraph{Lagrangian} Lets look at example with only one constraint
+\subparagraph{Lagrangian} In order to implement our code properly we decided to write all expressions we will need during the work.
 \[L_{p\mu}(x) = f(x) + \mu_i \varphi_{p }(g_{i(x)}) + ... \]
 
 \[\nabla_x L_{p\mu}(x) = \nabla_x f(x) + \mu_i \varphi_{p }^{'} (g_{i(x)}) \nabla_x g_{i(x)} + ... \]
 
 \[\nabla_x^2 L_{p\mu}(x) = \nabla_x^2 f(x) +  \mu_i \varphi_{p}^{''} (g_{i(x)}) \nabla_x g_{i(x)}\nabla_x^T g_{i(x)} +  \mu_i \varphi_{p}^{'} (g_{i(x)}) \nabla_x^2 g_{i(x)} + ... = \]
 
-\[\nabla_x^2 L_{p\mu}(x) = \nabla_x^2 f(x) +  \mu_i \varphi_{p}^{''} (g_{i(x)}) \nabla_x g_{i(x)}\nabla_x^T g_{i(x)} + 0 \]
+\[\nabla_x^2 L_{p\mu}(x) = \nabla_x^2 f(x) +  \mu_i \varphi_{p}^{''} (g_{i(x)}) \nabla_x g_{i(x)}\nabla_x^T g_{i(x)} + 0 + ... \]
 
 \subparagraph{Penalty Function}
 \[
@@ -313,5 +312,27 @@ Is the dual optimum achieved at that point? Yes.
                 \end{array}
               \right.
 \]
+
+\subsection{Results}
+We got same results as in analytic solution:
+\begin{verbatim}
+The solution is:
+ [[0.66666667]
+ [0.66666667]]
+Lagrange multipliers are:
+ [array([12.00000029]), array([11.33333356]), array([2.82832242e-22])]
+\end{verbatim}
+
+
+\newpage
+\subsection{Plots}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=.4\textwidth]{pics/Augmented_Lagrangian_gradient_fig}
+\includegraphics[width=.4\textwidth]{pics/Convergence_rate_fig}
+\includegraphics[width=.4\textwidth]{pics/Maximal_constraint_violation_fig}
+\includegraphics[width=.4\textwidth]{pics/Optimal_point_and_optimal_multipliers_Distance_fig}
+\end{figure}
 
 \end{document}
