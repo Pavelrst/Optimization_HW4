@@ -10,6 +10,10 @@ class AugmentedLagrangian:
         self.name = name
         self.optimal = optimal
 
+        # Only in our case
+        self.optimal_x = np.array([[2/3], [2/3]])
+        self.optimal_mu = np.array([[12], [11+1/3], [0]])
+
         self.p_max = 1000
         self.curr_p = 2
         self.p_alpha = 10
@@ -17,6 +21,14 @@ class AugmentedLagrangian:
 
     def print_multipliers(self):
         print("Augmented Lagrangian multipliers are: ", self.mu_list)
+
+    def get_most_violated_constraint(self,x):
+        max_violation = 0
+        for constr in self.constr_list:
+            val = max(0, constr.val(x))
+            if max_violation < val:
+                max_violation = val
+        return max_violation
 
     def update_mu(self, x):
         '''
@@ -27,13 +39,22 @@ class AugmentedLagrangian:
             self.mu_list[idx] = mu_new
         #print("self.mu_list=", self.mu_list)
 
+    def get_mu(self):
+        return self.mu_list
+
     def update_p(self):
         if self.curr_p < self.p_max:
             self.curr_p = self.curr_p * self.p_alpha
             self.penalty = Penalty(min(self.curr_p, self.p_max))
 
     def optimal(self):
-        return self.optimal()
+        return self.optimal
+
+    def optimal_x(self):
+        return self.optimal_x
+
+    def optimal_mu(self):
+        return self.optimal_mu()
 
     def name(self):
         return self.name()

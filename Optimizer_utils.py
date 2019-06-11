@@ -13,8 +13,13 @@ class Gradient_descent():
         self.verbose = verbose
         self.f_val_list = []
         self.step_sizes_list = []
+        self.augmented_lagrangian_grad_list = []
+        self.distance_to_optimal_point_list = []
+        self.distance_to_optimal_multipliers_list = []
+        self.most_violated_constraints_list = []
         self.step_size_estimator = step_size_estimator
         self.method_type = method_type
+        self.global_step = 0
 
     def optimize(self, func, start_point):
         #self.f_val_list.append(func.val(start_point))
@@ -22,7 +27,8 @@ class Gradient_descent():
         x = start_point
 
         for step in range(self.max_steps):
-            print("step:", step)
+            print("step:", self.global_step)
+            self.global_step += 1
             prev_x = x
             if self.method_type == 'steepest_descent':
                 x = self.optimizer_step(x, func)
@@ -31,7 +37,19 @@ class Gradient_descent():
             else:
                 print("Direction method not selected")
                 break
+
+            # Adding values for plotting
             self.f_val_list.append(func.val(x))
+            self.augmented_lagrangian_grad_list.append(np.linalg.norm(func.grad(x)))
+            self.distance_to_optimal_point_list.append(np.linalg.norm(func.optimal_x - x))
+
+            opt_mu = np.array(func.optimal_mu)
+            curr_mu = np.array(np.array(func.get_mu()))
+            dist = np.linalg.norm(curr_mu - opt_mu)
+            self.distance_to_optimal_multipliers_list.append(dist)
+
+            most = func.get_most_violated_constraint(x)
+            self.most_violated_constraints_list.append(most)
 
             #print("f(x)=", func.val(x), " current point= ~", np.round(x, 5))
 
@@ -92,17 +110,55 @@ class Gradient_descent():
             #converg_list.append(val)
             iterations_list.append(idx)
 
-        plt.plot(iterations_list, converg_list)
+        # Convergence
+        plt.plot(iterations_list, converg_list, label='convergence')
         plt.ylabel('f(x)-f* / log')
-        plt.xlabel('iterations')
-        #plt.yscale('log')
-        label = f_name + ' - ' + self.method_type + ' convergence rate'
+        plt.xlabel('Newton iterations')
+        plt.yscale('log')
+        label = 'Convergence_rate'
         plt.title(label)
-        if marker != None:
-            x, y = marker
-            plt.plot(x, y, 'ro')
+        plt.legend()
         plt.gcf()
         name = label + '_fig.JPEG'
         plt.savefig(name, bbox_inches='tight')
         plt.show()
 
+        # Gradient
+        plt.plot(iterations_list, self.augmented_lagrangian_grad_list, label='augmented_lagrangian_grad')
+        plt.ylabel('|grad_f(x)| / log')
+        plt.xlabel('Newton iterations')
+        plt.yscale('log')
+        label = 'Augmented_Lagrangian_gradient'
+        plt.title(label)
+        plt.legend()
+        plt.gcf()
+        name = label + '_fig.JPEG'
+        plt.savefig(name, bbox_inches='tight')
+        plt.show()
+
+        # multipliers and point
+        plt.plot(iterations_list, self.distance_to_optimal_multipliers_list, label='distance_to_optimal_multipliers')
+        plt.plot(iterations_list, self.distance_to_optimal_point_list, label='distance_to_optimal_point')
+        plt.ylabel('Distance / log')
+        plt.xlabel('Newton iterations')
+        plt.yscale('log')
+        label = 'Optimal_point_and_optimal_multipliers_Distance'
+        plt.title(label)
+        plt.legend()
+        plt.gcf()
+        name = label + '_fig.JPEG'
+        plt.savefig(name, bbox_inches='tight')
+        plt.show()
+
+        # most violated
+        plt.plot(iterations_list, self.most_violated_constraints_list, label='most violated constraint')
+        plt.ylabel('Largest violation / log')
+        plt.xlabel('Newton iterations')
+        plt.yscale('log')
+        label = 'Maximal_constraint_violation'
+        plt.title(label)
+        plt.legend()
+        plt.gcf()
+        name = label + '_fig.JPEG'
+        plt.savefig(name, bbox_inches='tight')
+        plt.show()

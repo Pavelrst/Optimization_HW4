@@ -16,15 +16,17 @@ def main():
     opt_newton = Gradient_descent(method_type='newton_method', max_steps=1000, verbose=True)
 
     x = f.starting_point()
-    for i in range(12):
+    for i in range(7):
         print("x=", x)
         x = opt_newton.optimize(f, x)
         f.update_mu(x)
         f.update_p()
 
-    opt_newton.plot_convergence(f.optimal, f.name)
-    # opt_newton.optimize(f, f.starting_point())
-    # opt_newton.plot_convergence(f.optimal(), f.name)
+    print("The solution is:\n", x)
+    print("Lagrange multipliers are:\n", f.get_mu())
+
+    # opt_newton.plot_convergence(f.optimal, f.name)
+
 
 def plot_problem(objective, constraints_list):
     x_list = np.arange(-10,10,0.1)
